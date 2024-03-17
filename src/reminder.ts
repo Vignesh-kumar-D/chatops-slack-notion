@@ -26,4 +26,4 @@ const postNewNotionItemsToSlack: Handler = async () => {
   };
 };
 //schedule("* * * * *", postNewNotionItemsToSlack) to test on every minute;
-export const handler = schedule("* * * * *", postNewNotionItemsToSlack);
+export const handler = schedule("0 9 * * 1", postNewNotionItemsToSlack);
