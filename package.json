@@ -1,9 +1,19 @@
 {
-	"dependencies": {
-		"@netlify/functions": "^1.6.0",
-		"netlify-cli": "^17.19.4"
-	},
-	"devDependencies": {
-		"@types/node": "^20.1.4"
-	}
+  "dependencies": {
+    "@netlify/functions": "^1.6.0",
+    "netlify-cli": "^17.19.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.1.4"
+  },
+  "name": "chatops-slack",
+  "description": "[![Frontend Masters](https://static.frontendmasters.com/assets/brand/logos/full.png)](https://frontendmasters.com)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vignesh Kumar",
+  "license": "ISC"
 }
