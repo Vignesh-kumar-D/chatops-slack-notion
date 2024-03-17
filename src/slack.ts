@@ -16,7 +16,7 @@ async function handleInteractivity(payload: SlackModalPayload) {
       };
       await saveItems(field);
       await slackApi("chat.postMessage", {
-        channel: payload.channel?.id ?? process.env.CHANNEL_GENERAL,
+        channel: process.env.CHANNEL_GENERAL,
         text: `oh dang, ya,all! :eyes: <@${payload.user.id}> just started a food fight with of a level ${field.spiceLevel}:\n\n*${field.opinion}*\n\n.....let's discuss.`,
       });
 
