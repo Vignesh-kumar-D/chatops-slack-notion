@@ -1,5 +1,4 @@
 // TODO create Notion utilities
-
 export async function notionApi(endpoint: string, body: {}) {
   const res = await fetch(`https://api.notion.com/v1${endpoint}`, {
     method: "POST",
