@@ -29,7 +29,7 @@ async function handleInteractivity(payload: SlackModalPayload) {
       await slackApi("chat.postMessage", {
         channel,
         thread_ts,
-        text: `Hey <@${user_id} looks like you want to start a food fight!!, use command \`/heat-eat\` and type your opinion to get started`,
+        text: `Hey <@${user_id}> looks like you want to start a food fight!!, use command \`/heat-eat\` and type your opinion to get started`,
       });
       break;
     default:
