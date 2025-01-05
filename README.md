@@ -1,66 +1,153 @@
-[![Frontend Masters](https://static.frontendmasters.com/assets/brand/logos/full.png)](https://frontendmasters.com)
+# 🌶️ Eat & Chill: The Food Fight Bot
 
-This is a companion repo for the [Building a Slack Chat Bot with Jason Lengstorf](https://frontendmasters.com/courses/chat-apis/) course on [Frontend Masters](https://frontendmasters.com).
+## 🎯 Overview
+Eat & Chill is a Slack bot that sparks food debates by collecting unpopular food opinions. Using Netlify functions and serverless architecture, it connects Slack interactions with Notion for persistent debate tracking.
 
-The `main` branch contains the final application. Use the `start` branch when following the course.
+## ✨ Key Features
+- One-click food debates with `/heat-eat`
+- Spice level rating system
+- Notion integration for debate tracking
+- Serverless architecture with Netlify
+- Weekly scheduled reminders via cron jobs
+- Live tunneling for real-time interactions
 
-## Setup Instructions
+## 🛠️ Tech Stack
+- ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+- ![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+- ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+- ![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
 
-> Note: Node version 18 is required for this course
+## 🏗️ Architecture
+```mermaid
+flowchart TB
+    subgraph Slack["Slack Workspace"]
+        Command["/heat-eat Command"]
+        Channel["Channel Notifications"]
+    end
 
-### Netlify
+    subgraph Netlify["Netlify Infrastructure"]
+        direction TB
+        Tunnel["Live Tunnel"]
+        
+        subgraph Functions["Serverless Functions"]
+            Handler["Command Handler"]
+            Modal["Modal Interface"]
+            Notify["Notification Service"]
+        end
+        
+        subgraph Scheduled["Scheduled Jobs"]
+            Cron["Weekly Reminder\n(Monday 9 AM)"]
+        end
+    end
 
-Netlify is used as a live tunnel for testing the application. If you don't already have an account, create one before beginning the course:
+    subgraph Notion["Notion Database"]
+        Records["Debate Records"]
+        subgraph Fields["Database Fields"]
+            Opinion["Food Opinion"]
+            Spice["Spice Level"]
+            Status["Debate Status"]
+        end
+    end
 
-1. Visit https://www.netlify.com
-2. Click **Sign Up** to create a new account.
+    Command -->|"Trigger"| Tunnel
+    Tunnel -->|"Route"| Handler
+    Handler -->|"Display"| Modal
+    Modal -->|"Store"| Records
+    Modal -->|"Announce"| Channel
+    
+    Cron -->|"Check"| Records
+    Cron -->|"Update"| Channel
+    
+    Records --> Fields
 
-The Netlify CLI is also required for the course. These installation steps are covered in the **Creating a Netlify Tunnel** lesson:
+    classDef slack fill:#4A154B,stroke:#1A1A1A,stroke-width:2px,color:white
+    classDef netlify fill:#00AD9F,stroke:#1A1A1A,stroke-width:2px,color:white
+    classDef notion fill:#000000,stroke:#1A1A1A,stroke-width:2px,color:white
+    classDef functions fill:#00AD9F,stroke:#1A1A1A,stroke-width:2px,opacity:0.7
+    classDef fields fill:#000000,stroke:#1A1A1A,stroke-width:2px,opacity:0.7
 
-1. Install the Netlify CLI: `npm i -g netlify-cli`
-2. Login to your Netlify account: `ntl login`
-3. Initialize the project: `ntl init`
-4. Start the dev server: `ntl dev --live`
+    class Slack slack
+    class Netlify,Functions,Scheduled netlify
+    class Notion,Fields notion
+```
 
-### Slack
+## 🚀 Development Setup
 
-A free Slack account and workspace is required for this course. We recommend creating a new workspace for testing the application. If you don't have a Slack account or workspace:
+### Prerequisites
+- Node.js (v18+)
+- Netlify CLI
+- Slack Workspace
+- Notion Account
 
-1. Visit https://slack.com
-2. Create a new account or sign in
-3. Click **Create a New Workspace** and follow the instructions
+### Netlify Configuration
+1. Install Netlify CLI: npm install -g netlify-cli
+2. Create live tunnel: ntl dev --live
+3. Configure serverless functions
+4. Set up scheduled functions
 
-Creating a new Slack application is demonstrated in the **Slack App Setup** lesson.
+### Slack Setup
+1. Create Slack App
+2. Configure slash command `/heat-eat`
+3. Set OAuth scopes
+4. Add Netlify URL as endpoint
 
-1. Visit https://api.slack.com
-2. Click **Create new App** and choose to create it from scratch
-3. Name the application Food Fight and choose to deploy it to your test workspace
+### Notion Integration
+1. Create integration
+2. Configure database
+3. Set up API access
 
-**Long description for the application (provided here to copy/paste)**
+### Environment Variables
+Required in Netlify:
+- NOTION_SECRET=your_notion_secret
+- NOTION_DATABASE_ID=your_database_id
+- SLACK_BOT_TOKEN=your_slack_bot_token
+- SLACK_SIGNING_SECRET=your_signing_secret
+- SLACK_CHANNEL_ID=target_channel_id
 
-Is your workday going too smoothly? Everyone is being productive and that makes you suspicious? Why not derail the whole team by starting a heated argument about food?
+## 💡 Implementation Details
 
-- Is sous vide an acceptable way to cook a burger?
-- Does mayonnaise go on french fries?
-- Wnat to convince everyone that pineapple belongs on pizza?
+### Serverless Functions
+1. **Slash Command Handler**
+   - Processes `/heat-eat` command
+   - Triggers modal for opinion input
+   - Handles spice level selection
 
-Make your spiciest assertions and watch your team devolve into culinary fisticuffs. With Food Fight, remind your cowordkers that you are an agent of chaos!
+2. **Notion Integration**
+   - Creates debate entries
+   - Updates discussion status
+   - Tracks participation
 
-### Notion
+3. **Weekly Service Worker**
+   - Scheduled Netlify function
+   - Runs every Monday at 9 AM
+   - Sends channel reminders
+   - Updates debate statuses
 
-Notion is used to store data from the Slack application. You'll need to create a free Notion account:
+### Netlify Scheduled Function
+### Netlify Scheduled Function
+```javascript
+// Weekly reminder function
+exports.handler = schedule('0 9 * * 1', async () => {
+ // Check pending debates
+ // Send channel updates
+ // Update Notion status
+});
+```
 
-1. Visit https://notion.com
-2. Create a new account if you don't already have one.
-3. [optional] Create a new workspace
-4. Duplicate [the example database](https://frontendmasters-chatops.notion.site/7818ece038cc43129307fd41e91fd9c8)
+## 📱 User Flow
+1. User triggers `/heat-eat`
+2. Bot presents opinion input modal
+3. Opinion stored in Notion
+4. Channel notification sent
+5. Weekly reminders via cron job
 
-A new integration is created during the **Integration with Notion** lesson:
+## 🤝 Contributing
+1. Fork repository
+2. Create feature branch
+3. Submit pull request
 
-1. Visit https://www.notion.so/my-integrations
-2. Click the New Integration button
-3. Select the workspace you want to use for the application
-4. Add the basic information and an image from the `assets` directory.
-5. Visit the Food Fight Database you duplicated into your workspace and add the Food Fight connection.
-6. From the integrations section, copy the secret into a `NOTION_SECRET` environment variable
-7. Copy the database ID into a `NOTION_DATABASE_ID` environment variable
+## 📝 License
+[MIT](LICENSE)
+
+## 🙏 Acknowledgments
+Based on [Frontend Masters course](https://frontendmasters.com/courses/chat-apis/) by Jason Lengstorf
