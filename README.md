@@ -1,4 +1,4 @@
-<img width="932" alt="Screenshot 2025-01-06 at 2 31 18 PM" src="https://github.com/user-attachments/assets/cad8a9ca-971d-40b2-b0a5-1e9638565010" /># 🌶️ Eat & Chill: The Food Fight Bot
+# 🌶️ Eat & Chill: The Food Fight Bot
 
 ## 🎯 Overview
 Eat & Chill is a Slack bot that sparks food debates by collecting unpopular food opinions. Using Netlify functions and serverless architecture, it connects Slack interactions with Notion for persistent debate tracking.
